@@ -8,9 +8,7 @@ function Home() {
         minHeight: "100vh",
       }}
     >
-      <h1 style={{ textAlign: "center" }}>
-        Nádia, eu amo você. Se você me ama dá uma risadinha!
-      </h1>
+      <h1 style={{ textAlign: "center" }}>Estamos em construção!</h1>
     </div>
   );
 }
