@@ -33,6 +33,7 @@ describe("GET /api/v1/users/[username]", () => {
 
       expect(uuidVesion(response1Body.id)).toBe(4);
       expect(Date.parse(response1Body.created_at)).not.toBeNaN();
+      expect(Date.parse(response1Body.updated_at)).not.toBeNaN();
     });
 
     test("With case mismatch", async () => {
