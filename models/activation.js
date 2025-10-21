@@ -1,3 +1,4 @@
+import user from "./user";
 import email from "infra/email.js";
 import database from "infra/database.js";
 import webserver from "infra/webserver.js";
@@ -64,6 +65,38 @@ async function findOneValidById(tokenId) {
   }
 }
 
+async function markTokenAsUsed(activationTokenId) {
+  const usedActivationToken = await runUpdateQuery(activationTokenId);
+
+  return usedActivationToken;
+
+  async function runUpdateQuery(activationTokenId) {
+    const results = await database.query({
+      text: `
+        UPDATE
+          user_activation_tokens
+        SET
+          used_at = timezone('utc', now()),
+          updated_at = timezone('utc', now())
+        WHERE
+          id = $1
+        RETURNING
+          *
+        ;
+      `,
+      values: [activationTokenId],
+    });
+
+    return results.rows[0];
+  }
+}
+
+async function activateUserByUserId(userId) {
+  const activatedUser = await user.setFeatures(userId, ["create:session"]);
+
+  return activatedUser;
+}
+
 async function sendEmailToUser(user, activationToken) {
   await email.send({
     from: "UnniDev <contato@unnidev.com.br>",
@@ -80,8 +113,10 @@ Equipe UnniDev`,
 
 const activation = {
   create,
+  markTokenAsUsed,
   sendEmailToUser,
   findOneValidById,
+  activateUserByUserId,
 };
 
 export default activation;
