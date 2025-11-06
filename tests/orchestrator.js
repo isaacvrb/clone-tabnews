@@ -4,6 +4,7 @@ import retry from "async-retry";
 import session from "models/session.js";
 import database from "infra/database.js";
 import migrator from "models/migratior.js";
+import activation from "models/activation";
 
 const emailHttpUrl = `http://${process.env.EMAIL_HTTP_HOST}:${process.env.EMAIL_HTTP_PORT}`;
 
@@ -92,15 +93,20 @@ function extractUUID(text) {
   return match ? match[0] : null;
 }
 
+async function activateUser(inactiveUser) {
+  return await activation.activateUserByUserId(inactiveUser.id);
+}
+
 const orchestrator = {
-  waitForAllServices,
-  clearDatabase,
-  runPendingMigrations,
   createUser,
+  extractUUID,
+  getLastEmail,
+  activateUser,
+  clearDatabase,
   createSession,
   deleteAllEmails,
-  getLastEmail,
-  extractUUID,
+  waitForAllServices,
+  runPendingMigrations,
 };
 
 export default orchestrator;
