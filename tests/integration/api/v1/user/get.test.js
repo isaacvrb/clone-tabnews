@@ -1,4 +1,3 @@
-import { version as uuidVesion } from "uuid";
 import { version as uuidVersion } from "uuid";
 import session from "models/session.js";
 import orchestrator from "tests/orchestrator";
@@ -21,7 +20,7 @@ describe("GET /api/v1/user", () => {
 
       expect(responseBody).toEqual({
         name: "ForbiddenError",
-        message: "Você não possui permissão para executar essa ação.",
+        message: "Você não possui permissão para executar esta ação.",
         action: 'Verifique se o seu usuário possui a feature "read:session".',
         status_code: 403,
       });
@@ -56,13 +55,13 @@ describe("GET /api/v1/user", () => {
         id: createdUser.id,
         username: "UserWithValidSession",
         email: createdUser.email,
-        features: ["create:session", "read:session"],
+        features: ["create:session", "read:session", "update:user"],
         password: createdUser.password,
         created_at: createdUser.created_at.toISOString(),
         updated_at: activatedUser.updated_at.toISOString(),
       });
 
-      expect(uuidVesion(responseBody.id)).toBe(4);
+      expect(uuidVersion(responseBody.id)).toBe(4);
       expect(Date.parse(responseBody.created_at)).not.toBeNaN();
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
 
@@ -121,7 +120,7 @@ describe("GET /api/v1/user", () => {
         id: createdUser.id,
         username: "UserWithHalfwayExpiredSession",
         email: createdUser.email,
-        features: ["create:session", "read:session"],
+        features: ["create:session", "read:session", "update:user"],
         password: createdUser.password,
         created_at: createdUser.created_at.toISOString(),
         updated_at: activatedUser.updated_at.toISOString(),
