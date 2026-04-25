@@ -97,11 +97,11 @@ describe("models/authorization", () => {
       );
 
       expect(result).toEqual({
-        id: resource.id,
-        username: resource.username,
-        features: resource.features,
-        created_at: resource.created_at,
-        updated_at: resource.updated_at,
+        id: 1,
+        username: "User1",
+        features: ["read:user"],
+        created_at: "2026-01-01T00:00:00.000Z",
+        updated_at: "2026-01-01T00:00:00.000Z",
       });
     });
   });
