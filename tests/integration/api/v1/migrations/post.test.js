@@ -32,7 +32,7 @@ describe("POST /api/v1/migrations", () => {
     test("Running pending migrations", async () => {
       const createdUser = await orchestrator.createUser();
       const activatedUser = await orchestrator.activateUser(createdUser);
-      const sessionObject = await orchestrator.createSession(activatedUser.id);
+      const sessionObject = await orchestrator.createSession(activatedUser);
 
       const response = await fetch(`${webserver.origin}/api/v1/migrations`, {
         method: "POST",
@@ -61,7 +61,7 @@ describe("POST /api/v1/migrations", () => {
       const activatedUser = await orchestrator.activateUser(createdUser);
       await orchestrator.addFeatureToUser(createdUser, ["create:migration"]);
 
-      const sessionObject = await orchestrator.createSession(activatedUser.id);
+      const sessionObject = await orchestrator.createSession(activatedUser);
 
       const response = await fetch(`${webserver.origin}/api/v1/migrations`, {
         method: "POST",
